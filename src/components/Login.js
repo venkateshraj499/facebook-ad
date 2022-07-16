@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loader: {
     color: "#3f51b5 !important",
-    marginTop: "50%",
     marginLeft: "50%",
+    marginTop: "50px",
     transform: "translateX(-50%)",
   },
 }));
