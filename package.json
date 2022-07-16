@@ -18,6 +18,9 @@
     "react-spinners": "^0.13.3",
     "web-vitals": "^2.1.4"
   },
+  "engines": {
+    "node": "16.13.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
