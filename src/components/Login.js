@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Button } from "@material-ui/core";
 import { GET_USER_DETAILS } from "../queries/GET_USER_DETAILS";
+import { GET_ADMIN_DETAILS } from "../queries/GET_ADMIN_DETAILS";
 import { useLazyQuery } from "@apollo/client";
 import { useHistory } from "react-router-dom";
 import PulseLoader from "react-spinners/ClipLoader";
@@ -64,12 +65,20 @@ function Login() {
   const history = useHistory();
 
   const [login, { data, loading, error }] = useLazyQuery(GET_USER_DETAILS);
-  if (loading) return <PulseLoader className={classes.loader} />;
-  if (error) return <>Sorry Unexpected error occured</>;
+  const [adminLogin, response] = useLazyQuery(GET_ADMIN_DETAILS);
+
+  console.log(response);
+
+  if (loading || response.loading)
+    return <PulseLoader className={classes.loader} />;
+  if (error || response.error) return <>Sorry Unexpected error occured</>;
 
   if (data) {
     localStorage.setItem("user", JSON.stringify(data.users[0]));
     history.push("/user-dashboard");
+  }
+  if (response.data) {
+    history.push("/admin-dashboard");
   }
 
   return (
@@ -111,7 +120,7 @@ function Login() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => console.log(cred)}
+              onClick={() => adminLogin({ variables: cred })}
             >
               Admin Login
             </Button>
