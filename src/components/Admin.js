@@ -190,7 +190,7 @@ function Admin() {
         <>
           <Adstable data={data.ads} />
           <form>
-            <h1 align="center">Insert New Advertisement </h1>
+            <h1 align="center">Add New Advertisement </h1>
             <div className={classes.insertWrapper}>
               <div>
                 {" "}
@@ -330,13 +330,13 @@ function Admin() {
         <>
           <Adstable data={compData.client_company} isComp={true} />
           <form>
-            <h1 align="center">Insert New Company </h1>
+            <h1 align="center">Add New Company </h1>
             <div className={classes.insertWrapper}>
               <div>
                 {" "}
                 <div className={classes.formoption}>
                   <label>Company Name :</label>
-                  <input
+                  <textarea
                     onChange={(event) => (company_name = event.target.value)}
                     className={classes.text}
                     type="text"
