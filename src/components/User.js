@@ -77,8 +77,6 @@ function User() {
       query: GET_ALL_POSTS,
     });
     const updatedData = data.insert_post.returning[0];
-
-    console.log(updatedData, currentValue, "update");
     cache.writeQuery({
       query: GET_ALL_POSTS,
       data: { post: [updatedData, ...currentValue.post] },

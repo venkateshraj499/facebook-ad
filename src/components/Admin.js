@@ -7,6 +7,7 @@ import Adstable from "./Table";
 import { GET_ALL_ADS } from "../queries/GET_ALL_ADS";
 import { GET_ALL_COMPANIES } from "../queries/GET_ALL_COMPANIES";
 import { INSERT_ADS } from "../queries/INSERT_AD";
+import { INSERT_COMPANY } from "../queries/INSERT_COMPANY";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
   formoption: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   formoption2: {
     display: "flex",
@@ -73,6 +75,7 @@ function Admin() {
   const history = useHistory();
   const [isAds, setIsAds] = React.useState(true);
   const country = ["india", "usa", "australia"];
+  let company_name = "";
   const [info, setInfo] = React.useState({
     company: null,
     content: null,
@@ -90,10 +93,20 @@ function Admin() {
       query: GET_ALL_ADS,
     });
     const updatedData = data.insert_ads.returning[0];
-    console.log(currentValue);
     cache.writeQuery({
       query: GET_ALL_ADS,
       data: { ads: [updatedData, ...currentValue.ads] },
+    });
+  };
+
+  const updateCompanyCache = (cache, { data }) => {
+    const currentValue = cache.readQuery({
+      query: GET_ALL_COMPANIES,
+    });
+    const updatedData = data.insert_client_company.returning[0];
+    cache.writeQuery({
+      query: GET_ALL_COMPANIES,
+      data: { client_company: [updatedData, ...currentValue.client_company] },
     });
   };
 
@@ -134,6 +147,9 @@ function Admin() {
   const response = useQuery(GET_ALL_COMPANIES);
 
   const [insertAd] = useMutation(INSERT_ADS, { update: updateCache });
+  const [insertCompany] = useMutation(INSERT_COMPANY, {
+    update: updateCompanyCache,
+  });
 
   const compLoading = response?.loading ?? null;
   const compError = response?.error ?? null;
@@ -311,7 +327,35 @@ function Admin() {
           </form>
         </>
       ) : (
-        <Adstable data={compData.client_company} isComp={true} />
+        <>
+          <Adstable data={compData.client_company} isComp={true} />
+          <form>
+            <h1 align="center">Insert New Company </h1>
+            <div className={classes.insertWrapper}>
+              <div>
+                {" "}
+                <div className={classes.formoption}>
+                  <label>Company Name :</label>
+                  <input
+                    onChange={(event) => (company_name = event.target.value)}
+                    className={classes.text}
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <Button
+                onClick={() =>
+                  insertCompany({ variables: { company_name: company_name } })
+                }
+                color="primary"
+                variant="contained"
+              >
+                Insert
+              </Button>
+            </div>
+          </form>
+        </>
       )}
     </div>
   );

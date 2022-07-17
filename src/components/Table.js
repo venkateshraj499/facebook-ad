@@ -62,6 +62,7 @@ function Adstable({ data, isComp = false }) {
     ? ["ID", "Company"]
     : ["ID", "Company", "Content", "Link", "Status", "Visited"];
 
+  // Function to update the cache after updating an ad
   const updateCache = (cache, { data }) => {
     const currentValue = cache.readQuery({
       query: GET_ALL_ADS,
@@ -73,7 +74,6 @@ function Adstable({ data, isComp = false }) {
         temp[i] = updatedData;
       }
     });
-    console.log(temp, updatedData);
     cache.writeQuery({
       query: GET_ALL_ADS,
       data: {
@@ -81,6 +81,8 @@ function Adstable({ data, isComp = false }) {
       },
     });
   };
+
+  // Function to update the cache after deleting an ad
   const deleteCache = (cache, { data }) => {
     const currentValue = cache.readQuery({
       query: GET_ALL_ADS,
@@ -94,9 +96,11 @@ function Adstable({ data, isComp = false }) {
       },
     });
   };
+
   const [updateAd] = useMutation(UPDATE_AD, { update: updateCache });
   const [deleteAd] = useMutation(DELETE_AD, { update: deleteCache });
 
+  //Function to trigger the updateAd mutation
   const updateAdTrigger = () => {
     const header = {
       id: dialog.id,

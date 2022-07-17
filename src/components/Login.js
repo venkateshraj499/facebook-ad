@@ -74,6 +74,7 @@ function Login() {
   if (error || response.error) return <>Sorry Unexpected error occured</>;
 
   if (data) {
+    if (data.users.length === 0) return <>Invalid username or password</>;
     localStorage.setItem("user", JSON.stringify(data.users[0]));
     history.push("/user-dashboard");
   }
