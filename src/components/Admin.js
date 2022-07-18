@@ -353,6 +353,15 @@ function Admin() {
               >
                 Insert
               </Button>
+              <Button
+                onClick={() => {
+                  throw new Error("Sample error");
+                }}
+                color="primary"
+                variant="contained"
+              >
+                Sample error
+              </Button>
             </div>
           </form>
         </>

@@ -31,6 +31,7 @@ export const INSERT_ADS = gql`
         id
         link
         status
+        company_name
         target_country
         target_gender
         target_age_from

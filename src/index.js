@@ -9,6 +9,8 @@ import {
   ApolloProvider,
   HttpLink,
 } from "@apollo/client";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
 const link = new HttpLink({
   uri: "https://facebook-ad.hasura.app/v1/graphql",
@@ -19,6 +21,12 @@ const link = new HttpLink({
 const client = new ApolloClient({
   link,
   cache: new InMemoryCache(),
+});
+
+Sentry.init({
+  dsn: "https://5c008fad506a439d82ac9d9971b6c18e@o1323221.ingest.sentry.io/6580744",
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 1.0,
 });
 
 ReactDOM.render(
